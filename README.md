@@ -1,4 +1,4 @@
-# PCA_CrossValidation
+# Cross Validation for PCA
  Principal Component Analysis (PCA) is one of the most widely used
  multivariate techniques for describing and summarizing data. However,
  determining the optimal number of components remains a critical chal
