@@ -21,17 +21,18 @@ Principal Component Analysis (PCA) is one of the most widely used multivariate t
 However, determining the optimal number of components remains a critical challenge, particularly in the presence of noisy data. 
 While qualitative approaches, such as the scree plot or the percentage of variance explained, are commonly employed, their reliability is often limited. 
 In this study, we explore quantitative methods for selecting the optimal number of components, focusing specifically on three cross-validation techniques: 
-Gabriel Hold Out, EM-Wold and by Matrix Completion. 
+Gabriel Hold Out, EM and by Matrix Completion. 
 These methods are evaluated through simulations on synthetic datasets and subsequently applied to a real-world dataset to assess their performance and practicality.
-Our results suggest that cross-validation techniques can provide a more robust and reliable approach to selecting the optimal number of components in PCA,
-compared to traditional qualitative methods, in particular ... .
+Results indicate that Gabriel Hold-Out is the most computationally efficient, EM is the most robust across noise types, and Matrix Completion provides reliable performance, especially in structured noise scenarios. 
+However, dataset-specific characteristics, such as sample size and distribution assumptions, significantly impact method performance. 
+These findings underscore the importance of tailoring PCA approaches to the dataset's properties.
 \end{abstract}
 
 \section{Introduction}
 Dimensionality reduction is a fundamental task in data analysis, particularly when dealing with high-dimensional datasets. Its use 
 is motivated by the need to simplify the data representation, reduce computational complexity, and improve interpretability. \\
 One of the most popular techniques for dimensionality reduction is Principal Component Analysis (PCA), which aims to transform 
-the data into a new coordinate system where the variance of the data is maximized along the principal components. Given 
+the data into a new coordinate system where the variance of the data is maximized along the principal components \cite{LiQin2024}. Given 
 a data matrix $X \in \mathbb{R}^{n \times p}$, PCA seeks to solve the following optimization problem:
 \begin{gather*}
     \min_{\hat{X}} \| X - \hat{X} \|_F \quad \text{subject to} \quad \text{rank}(\hat{X}) \leq k 
@@ -39,7 +40,7 @@ a data matrix $X \in \mathbb{R}^{n \times p}$, PCA seeks to solve the following 
 The unsupervised problem can be approached using either the reduced Singular Value Decomposition (SVD) or the eigendecomposition of the covariance matrix. \\
 However, a key challenge in PCA is determining the optimal number of components to retain. If too few components are selected, important information may 
 be omitted from the analysis. Conversely, retaining too many components can incorporate noise, leading to unstable and unreliable results. \\
-Many criteria have been proposed in the literature in order to find the optimal number of dimensions in PCA.
+Many criteria have been proposed in the literature in order to find the optimal number of dimensions in PCA \cite{Bro2011} \cite{Jolliffe2015}.
 Among the most popular are the scree plot and the percentage of variance explained. \\
 The scree plot is a graphical method that displays the eigenvalues of the covariance matrix in decreasing order. The optimal number of components is 
 determined by identifying the "elbow" of the curve, where the eigenvalues start to level off. \\
@@ -414,36 +415,59 @@ Matrix Completion, despite its higher computational cost, demonstrated reliable 
 When applied to real-world datasets, the methods revealed their limitations, particularly concerning sample size 
 and assumptions about data distribution. For example, the small sample size and lack of Gaussianity in the Aphids 
 dataset posed challenges for all three methods, while the air pollution dataset underscored the effectiveness of Matrix Completion.\\
-These findings illustrate that the choice of method should consider dataset-specific characteristics. Future research could 
-focus on refining these techniques to enhance their applicability to diverse real-world contexts, improving their performance 
-under varying conditions.
+These findings illustrate that the choice of method should consider dataset-specific characteristics. 
+
+While this study offers insights into cross-validation techniques for PCA, several open questions remain.
+One intriguing area for further research is understanding how our methods perform as the true-rank to number-of-features ratio varies. 
+Specifically, identifying the conditions under which these techniques begin to underperform could provide valuable insights. 
+Additionally, the threshold at which performance degrades is likely to depend on the signal-to-noise ratio (SNR) of the environment. 
+Investigating how this threshold varies across different SNR levels could help refine these methods and guide their application in scenarios with varying data quality.
 
 
 \begin{thebibliography}{9}
-    \bibitem{perry} 
-    Perry, P.O. (2009). 
-    \href{https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=0a2508a9fd89513ddf1c227274c8192993520692}{Cross-Validation for Unsupervised Learning}. 
-    Stanford University.
 
-    \bibitem{Jeffers}
-    Jeffers, J.N.R. (1967).
-    \href{https://www.jstor.org/stable/2985919}{Applied Statistics}.
-    Two Case Studies in the Application of Principal Component Analysis
+    \bibitem{LiQin2024}
+   Li, G., Qin, Y. (2024).
+   \href{https://doi.org/10.2478/amns-2024-0664}{An Exploration of the Application of Principal Component Analysis in Big Data Processing}.
+   Applied Mathematics and Nonlinear Sciences, 9(1), 1-24.
 
-    \bibitem{Krzanowski}
-    Krzanowski, W.J. (1987).
-    \href{https://www.tandfonline.com/doi/abs/10.1080/03610928708829385}{Applied Statistics}.
-    Selection of Variables to Preserve Multivariate Data Structure, Using Principal Components 
-    
-    \bibitem{Diana}
-    Diana, G.; Tommasi, C. (2002).
-    \href{https://link.springer.com/article/10.1007/BF02511446}{Computational Statistics \& Data Analysis}.
-    Cross-validation methods in principal component analysis: A comparison 
+   \bibitem{Bro2011}
+   Bro, R., Smilde, A.K. (2011).
+   \href{https://www.sciencedirect.com/science/article/pii/S0167947311004099}{Principal component analysis}.
+   Analytical Methods, 6(9), 2812-2831.
 
-    \bibitem{Dray}
-    Dray, S. (2008).
-    \href{https://www.sciencedirect.com/science/article/pii/S0167947307002939}{Computational Statistics \& Data Analysis}.
-    On the number of principal components: A test of dimensionality based on measurements of similarity between matrices
+   \bibitem{Jolliffe2015}
+   Jolliffe, I.T., Cadima, J. (2015).
+   \href{https://www.sciencedirect.com/science/article/pii/S0169743915002579}{Principal component analysis: A review and recent developments}.
+   Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences, 374(2065), 20150202.
+   
+   \bibitem{perry} 
+   Perry, P.O. (2009). 
+   \href{https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=0a2508a9fd89513ddf1c227274c8192993520692}{Cross-Validation for Unsupervised Learning}. 
+   Stanford University.
+
+   \bibitem{Jeffers}
+   Jeffers, J.N.R. (1967).
+   \href{https://www.jstor.org/stable/2985919}{Applied Statistics}.
+   Two Case Studies in the Application of Principal Component Analysis.
+
+   \bibitem{Krzanowski}
+   Krzanowski, W.J. (1987).
+   \href{https://www.tandfonline.com/doi/abs/10.1080/03610928708829385}{Applied Statistics}.
+   Selection of Variables to Preserve Multivariate Data Structure, Using Principal Components.
+   
+   \bibitem{Diana}
+   Diana, G.; Tommasi, C. (2002).
+   \href{https://link.springer.com/article/10.1007/BF02511446}{Computational Statistics \& Data Analysis}.
+   Cross-validation methods in principal component analysis: A comparison. 
+
+   \bibitem{Dray}
+   Dray, S. (2008).
+   \href{https://www.sciencedirect.com/science/article/pii/S0167947307002939}{Computational Statistics \& Data Analysis}.
+   On the number of principal components: A test of dimensionality based on measurements of similarity between matrices.
+
+
+  
 
 \end{thebibliography}
 
